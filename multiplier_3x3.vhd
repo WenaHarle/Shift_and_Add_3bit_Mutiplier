@@ -51,11 +51,21 @@ architecture Structural of multiplier_3x3 is
                done     : out STD_LOGIC);
     end component;
     
+    component shifter_3bit
+        Port ( c_in  : in  STD_LOGIC;
+               a_in  : in  STD_LOGIC_VECTOR(2 downto 0);
+               q_in  : in  STD_LOGIC_VECTOR(2 downto 0);
+               a_out : out STD_LOGIC_VECTOR(2 downto 0);
+               q_out : out STD_LOGIC_VECTOR(2 downto 0));
+    end component;
+    
     -- Sinyal internal
     signal load_sig, shift_sig, add_sig, cnt_done_sig, cout_sig, Q0_sig : STD_LOGIC;
     signal adder_out, A_reg, B_reg, Q_reg, A_in, Q_in : STD_LOGIC_VECTOR(2 downto 0);
     signal cnt_out : STD_LOGIC_VECTOR(1 downto 0);
     signal C_reg, C_in : STD_LOGIC;
+    signal reset_counter : STD_LOGIC;
+    signal shifted_A, shifted_Q : STD_LOGIC_VECTOR(2 downto 0);
     
 begin
     -- Instansiasi Unit Kontrol
@@ -106,13 +116,25 @@ begin
         q     => Q_reg
     );
     
+    -- Counter reset logic: reset or load signal
+    reset_counter <= reset or load_sig;
+    
     -- Instansiasi Counter
     CNT: counter_2bit port map(
         clk    => clk,
-        reset  => reset,  -- Reset saat inisialisasi
-        en     => shift_sig,          -- Increment saat shift
+        reset  => reset_counter,  -- Reset saat load atau global reset
+        en     => shift_sig,      -- Increment saat shift
         count  => cnt_out,
         done   => cnt_done_sig
+    );
+    
+    -- Instansiasi Shifter
+    SHIFTER: shifter_3bit port map(
+        c_in  => C_reg,
+        a_in  => A_reg,
+        q_in  => Q_reg,
+        a_out => shifted_A,
+        q_out => shifted_Q
     );
     
     -- Flip-flop untuk Carry (C)
@@ -125,8 +147,8 @@ begin
         end if;
     end process;
     
-    -- Logika kombinasi untuk input register A dan Q
-    process(load_sig, add_sig, shift_sig, A_reg, Q_reg, C_reg, adder_out, cout_sig)
+    -- Logika kombinasi untuk input register A, Q, dan C
+    process(load_sig, add_sig, shift_sig, A_reg, Q_reg, C_reg, adder_out, cout_sig, shifted_A, shifted_Q)
     begin
         -- Default: Pertahankan nilai saat ini
         A_in <= A_reg;
@@ -144,8 +166,8 @@ begin
             C_in <= cout_sig;
         elsif shift_sig = '1' then 
             -- Geser kanan: [C, A, Q] 
-            A_in <= C_reg & A_reg(2 downto 1);  -- MSB A = carry, geser A
-            Q_in <= A_reg(0) & Q_reg(2 downto 1); -- MSB Q = LSB A, geser Q
+            A_in <= shifted_A;
+            Q_in <= shifted_Q;
             C_in <= '0';  -- Reset carry setelah geser
         end if;
     end process;

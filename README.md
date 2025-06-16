@@ -16,6 +16,7 @@ The design is decomposed into reusable and well-defined components, promoting cl
 
 ```bash
 .
+├── shift_3bit.vhd         # Shift register 3 bit
 ├── adder_3bit.vhd         # 3-bit binary adder
 ├── register_3bit.vhd      # 3-bit register (used for accumulator and multiplicand)
 ├── counter_2bit.vhd       # 2-bit synchronous counter (max count = 3)

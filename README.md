@@ -75,7 +75,7 @@ The multiplier operates by iteratively:
 
 ## 🧪 Testbench and Simulation
 
-<img src="https://github.com/user-attachments/assets/d97481b4-82da-4413-9503-79a975603bd9" alt="Simulation Result" width="100%">
+<img src="https://github.com/WenaHarle/Shift_and_Add_3bit_Mutiplier/blob/main/result3x3.png" alt="Simulation Result" width="100%">
 
 A dedicated testbench (`tb.vhd`) applies multiple input combinations and validates results through waveform or console output.
 

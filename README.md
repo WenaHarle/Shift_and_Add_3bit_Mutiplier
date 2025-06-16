@@ -66,7 +66,8 @@ The design is decomposed into reusable and well-defined components, promoting cl
 ---
 
 ## 🧪 Simulation and Verification
-![image](https://github.com/user-attachments/assets/d97481b4-82da-4413-9503-79a975603bd9)
+<img src="https://github.com/user-attachments/assets/d97481b4-82da-4413-9503-79a975603bd9" alt="Deskripsi Gambar" width="100%">
+
 
 
 A complete testbench is provided in `tb.vhd`. It applies multiple test vectors and verifies the functionality of the multiplier via waveform inspection or console output.

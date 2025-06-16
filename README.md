@@ -32,7 +32,7 @@ The multiplier operates by iteratively:
 ---
 
 ## 🧠 Architecture Overview
-<img src="https://github.com/user-attachments/assets/5535faa2-a6d5-4df1-91d6-c2d772bcf4dd" alt="ASM Chart" width="30%">
+<img src="https://github.com/user-attachments/assets/5535faa2-a6d5-4df1-91d6-c2d772bcf4dd" alt="ASM Chart" width="50%">
 
 ### 🔹 Datapath Components
 

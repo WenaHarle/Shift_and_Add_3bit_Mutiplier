@@ -109,7 +109,7 @@ begin
     -- Instansiasi Counter
     CNT: counter_2bit port map(
         clk    => clk,
-        reset  => reset or load_sig,  -- Reset saat inisialisasi
+        reset  => reset,  -- Reset saat inisialisasi
         en     => shift_sig,          -- Increment saat shift
         count  => cnt_out,
         done   => cnt_done_sig

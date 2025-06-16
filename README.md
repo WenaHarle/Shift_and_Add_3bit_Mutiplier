@@ -5,6 +5,7 @@ This repository contains a modular and synthesizable **3-bit by 3-bit binary mul
 ---
 
 ## 📌 Project Summary
+<img src="https://github.com/user-attachments/assets/5535faa2-a6d5-4df1-91d6-c2d772bcf4dd" alt="ASM Chart" width="100%">
 
 The multiplier operates by iteratively:
 

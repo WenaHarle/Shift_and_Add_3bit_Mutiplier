@@ -65,6 +65,8 @@ The design is decomposed into reusable and well-defined components, promoting cl
 ---
 
 ## 🧪 Simulation and Verification
+![image](https://github.com/user-attachments/assets/d97481b4-82da-4413-9503-79a975603bd9)
+
 
 A complete testbench is provided in `tb.vhd`. It applies multiple test vectors and verifies the functionality of the multiplier via waveform inspection or console output.
 
@@ -107,18 +109,3 @@ This project is suitable for digital design students and FPGA developers who wan
 Contributions, suggestions, and feature improvements are welcome. Please fork the repository and submit a pull request or open an issue.
 
 ---
-
-## 👤 Author
-
-**Wena HariLegawa**
-🔗 [GitHub Profile](https://github.com/WenaHarle)
-
----
-
-## 📜 License
-
-This project is licensed under the [MIT License](LICENSE). You are free to use, modify, and distribute it with proper attribution.
-
----
-
-If you need an **architecture diagram**, **waveform snapshots**, or instructions for **FPGA implementation**, let me know — I’d be happy to help you include them.

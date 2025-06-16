@@ -1,28 +1,31 @@
 # ⚙️ 3-Bit × 3-Bit Shift-and-Add Binary Multiplier in VHDL
 
-This repository provides a modular and synthesizable implementation of a **3-bit by 3-bit binary multiplier** using the **Shift-and-Add algorithm**, developed in **VHDL**. The design follows a classic datapath-control architecture and is suitable for FPGA prototyping, educational use, and low-resource embedded systems.
+This repository contains a modular and synthesizable **3-bit by 3-bit binary multiplier** implemented using the **Shift-and-Add algorithm** in **VHDL**. The design follows a classic **datapath-control architecture**, making it ideal for FPGA prototyping, digital logic education, and embedded system applications.
 
 ---
 
-## 📌 Project Description
+## 📌 Project Summary
 
-The multiplier operates by iteratively adding the multiplicand to an accumulator whenever the least significant bit (LSB) of the multiplier is `1`, followed by a logical right shift. This process repeats for 3 clock cycles, producing a 6-bit product.
+The multiplier operates by iteratively:
 
-The design is decomposed into reusable and well-defined components, promoting clarity, modularity, and testability.
+1. Checking the LSB of the multiplier.
+2. Adding the multiplicand to an accumulator if the LSB is `1`.
+3. Right-shifting the multiplier and left-shifting the multiplicand.
+4. Repeating the process for 3 clock cycles to produce a 6-bit product.
 
 ---
 
-## 🗂️ Repository Structure
+## 🗂️ File Structure
 
-```bash
+```text
 .
-├── shift_3bit.vhd         # Shift register 3 bit
+├── shift_3bit.vhd         # 3-bit shift register
 ├── adder_3bit.vhd         # 3-bit binary adder
-├── register_3bit.vhd      # 3-bit register (used for accumulator and multiplicand)
-├── counter_2bit.vhd       # 2-bit synchronous counter (max count = 3)
+├── register_3bit.vhd      # 3-bit register for accumulator/multiplicand
+├── counter_2bit.vhd       # 2-bit counter for iteration control
 ├── control_unit.vhd       # FSM-based control logic
-├── multiplier_3x3.vhd     # Top-level multiplier module (datapath + control)
-├── tb.vhd                 # Testbench for simulation and verification
+├── multiplier_3x3.vhd     # Top-level module (datapath + control)
+├── tb.vhd                 # Testbench for simulation
 └── README.md              # Project documentation
 ```
 
@@ -32,53 +35,56 @@ The design is decomposed into reusable and well-defined components, promoting cl
 
 ### 🔹 Datapath Components
 
-* **3-Bit Adder (`adder_3bit.vhd`)**
-  Performs unsigned addition between the multiplicand and the current accumulator value.
+* **Adder (`adder_3bit.vhd`)**
+  Performs 3-bit unsigned addition.
 
-* **3-Bit Registers (`register_3bit.vhd`)**
-  Used to store the accumulator and multiplicand values.
+* **Registers (`register_3bit.vhd`)**
+  Store multiplicand and accumulator values.
 
-* **2-Bit Counter (`counter_2bit.vhd`)**
-  Tracks the number of shift-and-add cycles (3 iterations total for a 3-bit multiplier).
+* **Shift Register (`shift_3bit.vhd`)**
+  Holds the multiplier and enables bitwise right shifting.
+
+* **Counter (`counter_2bit.vhd`)**
+  Keeps track of the number of shift-add cycles (max = 3).
 
 ### 🔹 Control Unit
 
-* **Finite State Machine (`control_unit.vhd`)**
-  Orchestrates the multiplication process. The control logic:
+* **FSM (`control_unit.vhd`)**
+  Manages:
 
-  * Checks the LSB of the multiplier.
-  * Enables the adder and accumulator conditionally.
-  * Triggers right-shift operations.
-  * Detects the completion of the operation via the counter.
+  * LSB checking of multiplier
+  * Conditional add enable
+  * Shift operations
+  * Loop termination via counter
 
-### 🔹 Top-Level Integration
+### 🔹 Top-Level Module
 
 * **`multiplier_3x3.vhd`**
-  Instantiates and interconnects all datapath and control components. Defines I/O ports, including:
+  Connects datapath and control components.
+  **I/O Ports:**
 
   * `clk`: System clock
-  * `rst`: Active-high reset
-  * `start`: Start signal
-  * `a`, `b`: 3-bit unsigned operands
+  * `rst`: Asynchronous reset
+  * `start`: Multiplication start trigger
+  * `a`, `b`: 3-bit inputs
   * `p`: 6-bit product output
-  * `done`: Indicates operation completion
+  * `done`: Completion flag
 
 ---
 
-## 🧪 Simulation and Verification
-<img src="https://github.com/user-attachments/assets/d97481b4-82da-4413-9503-79a975603bd9" alt="Deskripsi Gambar" width="100%">
+## 🧪 Testbench and Simulation
 
+<img src="https://github.com/user-attachments/assets/d97481b4-82da-4413-9503-79a975603bd9" alt="Simulation Result" width="100%">
 
+A dedicated testbench (`tb.vhd`) applies multiple input combinations and validates results through waveform or console output.
 
-A complete testbench is provided in `tb.vhd`. It applies multiple test vectors and verifies the functionality of the multiplier via waveform inspection or console output.
+### ✅ Example Case
 
-### ✅ Example Test Case
+| A (Dec) | B (Dec) | A (Bin) | B (Bin) | Product (Dec) | Product (Bin) |
+| ------- | ------- | ------- | ------- | ------------- | ------------- |
+| 5       | 3       | `101`   | `011`   | 15            | `001111`      |
 
-| Input A | Input B | Binary A | Binary B | Product | Binary Product |
-| ------- | ------- | -------- | -------- | ------- | -------------- |
-| 5       | 3       | `101`    | `011`    | 15      | `001111`       |
-
-### 💡 Simulation Tools Supported
+### 🧰 Supported Simulators
 
 * **GHDL**
 * **ModelSim / QuestaSim**
@@ -86,28 +92,27 @@ A complete testbench is provided in `tb.vhd`. It applies multiple test vectors a
 
 ---
 
-## 🛠️ Recommended Toolchain
+## 🛠️ Recommended Tools
 
-| Purpose     | Tool                                                                                               |
-| ----------- | -------------------------------------------------------------------------------------------------- |
-| Simulation  | Vivado Simulator                                                                   |
-| Synthesis   | Xilinx Vivado                                                                     |
+| Task       | Tool             |
+| ---------- | ---------------- |
+| Simulation | Vivado Simulator |
+| Synthesis  | Xilinx Vivado    |
 
 ---
 
-## 🎯 Educational Objectives
+## 🎓 Learning Outcomes
 
-This project is suitable for digital design students and FPGA developers who want to:
+This project is suitable for digital design students and developers looking to:
 
-* Understand low-level binary multiplication in hardware.
-* Practice building modular RTL designs.
-* Learn FSM-based control of iterative operations.
-* Explore datapath-controller architecture principles.
+* Learn binary multiplication in hardware.
+* Understand datapath vs control separation.
+* Build FSM-driven iterative logic.
+* Apply modular RTL design principles.
 
 ---
 
 ## 🤝 Contributing
 
-Contributions, suggestions, and feature improvements are welcome. Please fork the repository and submit a pull request or open an issue.
-
----
+Contributions and suggestions are welcome!
+Feel free to fork the repository and submit a pull request or open an issue.
